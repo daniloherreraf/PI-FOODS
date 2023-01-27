@@ -1,0 +1,127 @@
+/* Imagen de fondo */
+.bgImg {
+    
+    background-image: url("https://vivirmejor.mx/wp-content/uploads/2021/05/alimentos-con-protei%CC%81na.jpg");
+    background-size: cover;
+    background-repeat: repeat;
+    background-position-x: left;
+    width: 100%;
+    height: 100%;
+    position: absolute; 
+  
+}
+
+/************* Color sobre imagen con transparencia ***************/
+.bgImg2 {
+    background-size: cover;
+    background-repeat: repeat;
+    background-position-x: left;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  
+    
+    background: rgba(243, 240, 239, 0.087);
+  }
+
+  /************* Circulo ***************/
+.bgImg3 {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 450px;
+    height: 450px;
+    margin: auto;
+  
+    /* border-radius: 225px; */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+    background: rgba(249, 247, 246, 0);
+    /* border: 10px solid #ffffff;
+    box-shadow: 3px 3px 20px 3px #000000; */
+    
+  }
+
+  /************* Titulo ***************/
+.bgImg3 h1 {
+    position: relative;
+    font-family: "Source Serif Pro", serif;
+    text-align: center;
+    font-weight: 300;
+    font-size: 80px;
+    line-height: 70px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    color: #f4f0f0;
+  }
+
+  /************* Boton ***************/
+.bgImg3 {
+    font-family: "DM Sans", sans-serif;
+    /* margin-top: 10px; */
+    background-color: transparent;
+    color:transparent;
+    align-items: center;
+    /* margin-left: 120px;
+    margin-right: 125px; */
+    font-size: 32px;
+    border:none;
+    /* border: 1px solid #000000; */
+    /* border-radius: 18px; */
+    /* padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px; */
+  }
+
+  .bgImg3:hover {
+    cursor: pointer;
+    transition: background-color 0.9s;
+    background-color: rgba(255, 255, 255, 0);
+    color: transparent;
+    font-weight: bold;
+    border: 1px solid #31313100;
+  }
+
+  .mensaje {
+    color: rgb(236, 112, 11);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 94px;
+  }
+
+  .mensaje:hover{
+    color:rgba(31, 31, 30, 0.815);
+    font-family: "Source Serif Pro", serif;
+    font-size: 94px;
+    
+  }
+
+  @media screen and (max-width: 425px) {
+    .bgImg3 {
+      width: 400px;
+      height: 400px;
+      border-radius: 200px;
+    }
+  }
+
+  .button {
+    border-radius: 15px;
+    margin-left: 2px;
+    margin-top: 5px;
+    height: 55px;
+    width: 150px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #8f8e8e;
+  
+    font-family: "DM Sans", sans-serif;
+    /* background: rgba(209, 196, 189, 0.69); */
+    background: rgba(178, 165, 157, 0.69);
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
