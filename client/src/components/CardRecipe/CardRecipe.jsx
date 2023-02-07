@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import style from "./Card.module.css";
 
-export default function CardRecipe({ name, img, diets, id, types, healthScore }) {
+const CardRecipe = ({ name, img, diets, id, types, healthScore }) => {
     return (
         <div className={style.card} >
             <div className={style.infoCard}>
@@ -12,19 +12,26 @@ export default function CardRecipe({ name, img, diets, id, types, healthScore })
                 <div>
                     <h3>{name}</h3>
                 </div>
-                <Link to={`/recipes/${id}`}>
-                    <button tittle= "Open Details">X</button>
+                <Link to={`/detailrecipe/${id}` }>
+                    <h5>Open Details</h5>
                 </Link>
             </div>
             <br />
             <div className={style.infoCard3}>
                 <div className={style.infoCard2}>
-                    <div>
-                        {
-                            diets ? diets.map((element) => <h5 key={element}>{element}</h5>) : <h5>Not Diets</h5>
-                        }
-                    </div>
-                              
+                    {diets ? (
+                        <div>
+                            {diets.map((element) =>{
+                                if(typeof diets[0] === "object") {
+                                    return <h5 key={element.name}>{element.name}</h5>
+                                }
+                                return <h5 key={element}>{element}</h5>
+                            })}
+                        </div>
+                    ) : (
+                        <h4>Not diets</h4>
+                    )}
+                            
                     <div>
                         {
                             types ? types.map((element) => <h5 key={element}>{element}</h5>) : <h5>Not Types</h5>
@@ -39,4 +46,6 @@ export default function CardRecipe({ name, img, diets, id, types, healthScore })
         </div>   
     )
 }
+
+export default CardRecipe;
 

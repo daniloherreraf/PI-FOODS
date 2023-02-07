@@ -67,12 +67,6 @@
 
 /************* Boton Detalle ***************/
 
-/* .tituloD {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  } */
-
 .infoCard {
     display: flex;
     position: relative;
@@ -124,13 +118,11 @@
     font-family: "DM Sans", sans-serif;
     width: 130px;
     background: rgba(56, 47, 42, 0.62);
-   /*  background: rgba(190, 123, 87, 0.62); */
 }
 
 .infoCard3 {
     display: flex;
     position: relative;
-    /* background: rgba(207, 186, 174, 0.62); */
     top: 0px;
 }
 .h3{

@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
     sequelize.define(
-        "Recipe",
+        "recipe",
         {
             id: {
                 type: DataTypes.UUID,
@@ -13,9 +13,6 @@ module.exports = (sequelize) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                validate: {
-                    isAlpha: true,
-                } 
             },
             summary: {
                 type: DataTypes.STRING,
@@ -23,14 +20,11 @@ module.exports = (sequelize) => {
             },
             healthScore: {
                 type: DataTypes.FLOAT,
-                allowNull: true,
-                validate: {
-                    min: 1,
-                    max: 100
-                  }  
+                allowNull: true, 
             },
-            score: {
-                type: DataTypes.FLOAT
+            types: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
+                allowNull: true,
               },
             steps: {
                 type: DataTypes.TEXT,
@@ -40,7 +34,7 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            createdInDb: {
+            created: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true,
             },

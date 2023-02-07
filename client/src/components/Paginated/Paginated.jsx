@@ -1,14 +1,17 @@
 import React from "react";
 import style from "./Paginated.module.css";
 
-export default function Paginated({ recipesPerPage, allRecipes, paginated/* , page */ }) {
+const Paginated = ({ recipesPerPage, allRecipes, paginated }) => {
     const pages = [];
 
      for (let i = 1; i <= Math.ceil(allRecipes/recipesPerPage); i++) {
         pages.push(i);
      }
 
+    
+
      return (
+        
         <div className={style.bg}>
             <div className={style.btn} >
                 {
@@ -23,3 +26,5 @@ export default function Paginated({ recipesPerPage, allRecipes, paginated/* , pa
         </div>        
      )
 }
+
+export default Paginated

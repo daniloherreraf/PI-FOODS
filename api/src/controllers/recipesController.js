@@ -10,13 +10,8 @@ const getApiInfo = async () => {
     let response = await results?.map((result) => {
             return {
                 name: result.title,
-                vegetarian: result.vegetarian,
-                vegan: result.vegan,
-                glutenFree: result.glutenFree,
-                dairyFree: result.dairyFree, 
                 image: result.image, 
                 id: result.id, 
-                score: result.spoonacularScore,
                 healthScore: result.healthScore,
                 types: result.dishTypes?.map(element => element),  
                 diets: result.diets?.map(element => element), 
@@ -31,7 +26,7 @@ const getApiInfo = async () => {
 
    
 const getDBInfo = async () => {
-    return await Recipe.findAll({ 
+    const recipes =  await Recipe.findAll({ 
         include:{
             model: Diet,
             attributes: ['name'],
@@ -40,10 +35,29 @@ const getDBInfo = async () => {
             },
         }
     });
+    let response = await recipes.map((element) =>{
+        return {
+            id: element.id,
+            name: element.name,
+            summary: element.summary,
+            steps: element.steps,
+            types: element.types,
+            healthScore: element.healthScore,
+            image: element.image,
+            created: element.created,
+            diets: element.diets.map(el => el.name)
+        }
+    })
+     return response
+
 };
 
 
+
+
+
 const getAllInfo = async () => {
+    
     const dbRecipes = await getDBInfo();
     const recipesApi = await getApiInfo();
 
@@ -88,12 +102,12 @@ const getInfoById = async (id) => {
 };
 
 
-const postCreateRecipe = async ({name, summary, score, healthScore, image, steps, createdInDb, diets}) => {
-    let recipeCreate = await Recipe.create({name, summary, score, healthScore, image, steps, createdInDb});
-            let dietDB = await Diet.findAll({ 
-                where: { name: diets }
-            });
-            recipeCreate.addDiet(dietDB);
+const postCreateRecipe = async ({name, summary, healthScore, types, image, steps, created, diets}) => {
+    let recipeCreate = await Recipe.create({name, summary, healthScore, types, image, steps, created});
+    let dietDB = await Diet.findAll({ 
+        where: { name: diets }
+    });
+    recipeCreate.addDiet(dietDB);
             
             return recipeCreate
 };

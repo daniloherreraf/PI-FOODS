@@ -5,35 +5,39 @@ import CardRecipe from "../CardRecipe/CardRecipe";
 import style from "./Home.module.css";
 import Paginated from "../Paginated/Paginated";
 import NavBar from "../NavBar/NavBar"
-import SearchBar from "../SearchBar/SearchBar";
+import Search from "../Search/Search";
 import {
     getRecipes,
-  //  getDiets,
+    getDiets,
     filterDiets,
-    filterCreated,
     filterByOrder,
-    orderByScore
+    orderByScore,
+    filterRecipes,
+    resetPage,
+    cleanDetail,
 } from "../../redux/actions";
 
 
 
 
-export default function Home () {
+const Home = () => {
     const [/* order */, setOrder] = useState("")
-    const [currentPage, setCurrentPage] = useState(1); // defino la pagina actual, y un estado que me setee la pagina actual 
-    const [recipesPerPage, /* setRecipesPerPage */ ] = useState(9); // defino cuantas recetas por pagina 
+   /*  const [currentPage, setCurrentPage] = useState(1);  */
+    const [recipesPerPage, /* setRecipesPerPage */ ] = useState(9); 
     const dispatch = useDispatch();
-    const allRecipes = useSelector((state) => state.recipesAll); //con esta constante me traigo todo lo que esta en el estado de recipes
- // const diets = useSelector((state) => state.diets)
+    const allRecipes = useSelector((state) => state.recipesAll); 
+    const currentPage = useSelector((state) => state.currentPage)
+    const diets = useSelector((state) => state.diets)
+    
     
    
 
-    useEffect(() => {          // con useEffect realizo el dispatch a mi action getRecipes(), para traerme todas las recetas cuando home se monta
+    useEffect(() => {         
         dispatch(getRecipes());  
-     //   dispatch(getDiets());
-    }, [dispatch]); // el segundo parametro de la function useEffect un array para evitar un loop infinito de llamados ***importante***, le paso el dispatch para que dependa del dispatch 
-
- //paginado   
+        dispatch(getDiets());
+        dispatch(cleanDetail())
+       
+    }, [dispatch]); 
     
 
     
@@ -42,129 +46,111 @@ export default function Home () {
     const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);  //son las recetas de la pagina actual. //el slice corta un arreglo basado en lo que le pase por parametro 
     
 
-    const paginated = (numPage) => {  //seteo en la página en el numero de la pagina//esto me ayuda en el renderizado
-        setCurrentPage(numPage);
+    const paginated = (currentPage) => {  //seteo en la página en el numero de la pagina//esto me ayuda en el renderizado
+        dispatch(resetPage(currentPage))
     }; 
 
 
-
-
     function handleFilter(e) {
-        dispatch(filterDiets(e.target.value));
-        setCurrentPage(1);
+        dispatch(filterDiets(allRecipes, e.target.value));
+        dispatch(resetPage(1));
         setOrder(`${e.target.value}`)
     };
 
     function handleRecipes(e) {     
         dispatch(getRecipes());
         paginated(1);
-        // dispatch(loadingAction(true));
-        // setTimeout(() => {
-        //     dispatch(loadingAction(false));
-        // }, 3000);
-    };
-
-    function handleCreated(e) {
-        dispatch(filterCreated(e.target.value))
-        setCurrentPage(1)
-        setOrder(`${e.target.value}`)    
+        
     };
 
     function handleFilterByOrder(e){
-        dispatch(filterByOrder(e.target.value))
-        setCurrentPage(1)
+        dispatch(filterByOrder(allRecipes, e.target.value))
+        dispatch(resetPage(1));
         setOrder(`Order ${e.target.value}`)
     };
 
     function handleOrderByScore(e){
-        dispatch(orderByScore(e.target.value))
-        setCurrentPage(1)
+        dispatch(orderByScore(allRecipes, e.target.value))
+        dispatch(resetPage(1));
         setOrder(`Order ${e.target.value}`)
     }
 
+    function handleFilterRecipe(e){
+        
+        dispatch(filterRecipes(e.target.value))
+        dispatch(resetPage(1));
+        setOrder(`Order ${e.target.value}`)
 
-
-
-
+    }
 
 
      return (
         <div className={style.bg}>
             <div className={style.bg}>
-           <div className={style.bg}>
-                <div className={style.navBar}>
-                    <NavBar paginated={paginated} />
-                </div>
-                <div className={style.filtroPaginado}>
-                    <div className={style.sortFilter}>                        
-                        <h1>Healthy Recipes to take care of your Diet</h1>
-                        <div>
-                            <button onClick={(e) => handleRecipes(e)}>Refresh</button>
-                        </div> 
-                            <select onChange={(e) => handleFilterByOrder(e)}>  
+                <div className={style.bg}>
+                    <div className={style.navBar}>
+                        <NavBar />
+                    </div>
+                    <div className={style.filtroPaginado}>
+                        <div className={style.sortFilter}>                               
+                            <h1>Healthy Recipes to take care of your Diet</h1>
+                            <div>
+                                <button onClick={(e) => handleRecipes(e)}>Refresh</button>
+                            </div>
+                            <select onChange={(e) => handleFilterByOrder(e)}>
                                 <option value="orderAZ">Recipes A-Z</option>
                                 <option value="orderZA">Recipes Z-A</option>
                             </select>
                             <select onChange={(e) => handleOrderByScore(e)}>
-                                <option value="ascScore">Up</option>
-                                <option value="descScore">Falling</option>
+                                <option value="ascScore">AsScore</option>
+                                <option value="descScore">DescScore</option>
                             </select>
                             <select onChange={e => handleFilter(e)}>
                                 <option value="all">All Diets</option>
-                                <option value="dairy free">Dairy Free</option>
-                                <option value="fodmap friendly">Fodmap Friendly</option>
-                                <option value="gluten free">Gluten Free</option>
-                                <option value="ketogenic">Ketogenic</option>
-                                <option value="lacto ovo vegetarian">Lacto Vegetarian</option>
-                                <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
-                                <option value="low FODMAP">Low FODMAP</option>
-                                <option value="ovo-vegetarian">Ovo Vegetarian</option>
-                                <option value="paleolithic">Paleolithic</option>
-                                <option value="pescatarian">Pescatarian</option>
-                                <option value="primal">Primal</option>
-                                <option value="vegan">Vegan</option>
-                                <option value="vegetarian">Vegetarian</option>
-                                <option value="whole 30">Whole 30</option>
-                            </select>
-                            <select onChange={e => handleCreated(e) }>
-                                <option value="all">All</option>
-                                <option value="created">Created</option>
-                                <option value="api">Existent</option>
-                            </select>
-                            
+                                {diets.length ? diets.map((e) =>
+                                <option value={e.name} key={e.id}>{e.name}</option>) : null}
+                            </select>  
+                            <select onChange={e => handleFilterRecipe(e)}>
+                                <option value="all">All Recipes</option>
+                                <option value="api">Recipes API</option>
+                                <option value="bd">Recipes BD</option>
+                            </select>                         
                             <div className={style.paginado}>
                         </div>
-                            <Paginated
-                            recipesPerPage={recipesPerPage}
-                            allRecipes={allRecipes.length}
-                            paginated={paginated}
-                            />
-                            <SearchBar/>
-                            </div>
-                        </div>                 
-                        <div className={style.card}>
-                            <div className={style.card1}>
-                                {
-                                    currentRecipes?.map((recipe) => {
-                                        return (
-                                            <div key={recipe.id}>
-                                                <CardRecipe
-                                                    id={recipe.id}
-                                                    name={recipe.name}
-                                                    img={recipe.image}
-                                                    diets={recipe.diets}
-                                                    types={recipe.types}
-                                                    healthScore={recipe.healthScore}
-                                            /> 
-                            </div>
-                            )})}
+                        <Paginated
+                        recipesPerPage={recipesPerPage}
+                        allRecipes={allRecipes.length}
+                        paginated={paginated}
+                        />
+                        <Search
+                        />
+                    </div>
+                </div>             
+                <div className={style.card}>
+                    <div className={style.card1}>
+                        {
+                            currentRecipes?.map((recipe) => {
+                                return (
+                                    <div key={recipe.id}>
+                                        <CardRecipe
+                                        id={recipe.id}
+                                        name={recipe.name}
+                                        img={recipe.image}
+                                        diets={recipe.diets}
+                                        types={recipe.types}
+                                        healthScore={recipe.healthScore}
+                                        /> 
+                                    </div>
+                    )})}
+                    </div>
+                </div>
                 </div>
             </div>
-        </div>
-        </div>
-    </div>    
+        </div>    
     )
 }
+
+export default Home;
 
 
 

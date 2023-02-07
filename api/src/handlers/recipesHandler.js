@@ -32,13 +32,17 @@ const getRecipeHandler = async (req, res) => {
 };
 
 const createRecipeHandler = async (req, res) => {
-    const { name, summary,  score, healthScore, image, steps, createdInDb,  diets } = req.body;
+    const { name, summary, healthScore, image, steps, types, created,  diets } = req.body;
     
     try {
-        if(!name || !summary ) {
+        const recipesApiDB = await getAllInfo();
+        const recipeName = recipesApiDB.find(recipe => recipe.name === name)
+        if(recipeName) {
+            return res.status(404).send(`the recipe with the ${name} already exists`)
+        } else if(!name || !summary ) {
             return res.status(404).send("Error to create recipe is required name and summary")
         } else {
-            const createRecipe = await postCreateRecipe({name, summary, score, healthScore, image, steps, createdInDb, diets})
+            const createRecipe = await postCreateRecipe({name, summary, healthScore, image, steps, types, created, diets})
             return res.status(201).json(createRecipe);
       }  
     } catch (error) {
