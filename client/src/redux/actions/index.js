@@ -119,24 +119,11 @@ export const orderByScore = (allRecipes, value) => {
     }
 }
 
-export const filterDiets = (allRecipes, value) => {
-    try {
-        let recipesFiltered = []
-        allRecipes.map((recipe) =>{
-            if(recipe.diets.length > 0){
-                if(recipe.diets.includes(value)){
-                    recipesFiltered.push(recipe)
-                }
-            }     
-        })
-       
-        return function(dispatch){
-            dispatch({type: FILTER_DIETS, payload: recipesFiltered})
+export const filterDiets = (payload) => { 
+        return {
+            type: FILTER_DIETS,
+            payload
         }
-        
-    } catch (error) {
-        throw new Error(error);
-    }
 }
 
 export const filterRecipes = (payload) => {

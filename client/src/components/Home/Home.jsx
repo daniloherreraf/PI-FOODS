@@ -52,7 +52,7 @@ const Home = () => {
 
 
     function handleFilter(e) {
-        dispatch(filterDiets(allRecipes, e.target.value));
+        dispatch(filterDiets(e.target.value));
         dispatch(resetPage(1));
         setOrder(`${e.target.value}`)
     };

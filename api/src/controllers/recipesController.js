@@ -44,7 +44,7 @@ const getDBInfo = async () => {
             types: element.types,
             healthScore: element.healthScore,
             image: element.image,
-            created: element.created,
+            createdInDb: element.createdInDb,
             diets: element.diets.map(el => el.name)
         }
     })
@@ -94,16 +94,16 @@ const searchRecipeByName = async (name) => {
 
 
 const getInfoById = async (id) => {
-    console.log(id)
+   
   const recipes = await getAllInfo()
-  console.log(recipes)
+  
   let recipeId = await recipes.filter((element) => element.id == id)
   return recipeId  
 };
 
 
-const postCreateRecipe = async ({name, summary, healthScore, types, image, steps, created, diets}) => {
-    let recipeCreate = await Recipe.create({name, summary, healthScore, types, image, steps, created});
+const postCreateRecipe = async ({name, summary, healthScore, types, image, steps, createdInDb, diets}) => {
+    let recipeCreate = await Recipe.create({name, summary, healthScore, types, image, steps, createdInDb});
     let dietDB = await Diet.findAll({ 
         where: { name: diets }
     });

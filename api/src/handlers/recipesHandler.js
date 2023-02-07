@@ -32,7 +32,7 @@ const getRecipeHandler = async (req, res) => {
 };
 
 const createRecipeHandler = async (req, res) => {
-    const { name, summary, healthScore, image, steps, types, created,  diets } = req.body;
+    const { name, summary, healthScore, image, steps, types, createdInDb,  diets } = req.body;
     
     try {
         const recipesApiDB = await getAllInfo();
@@ -42,7 +42,7 @@ const createRecipeHandler = async (req, res) => {
         } else if(!name || !summary ) {
             return res.status(404).send("Error to create recipe is required name and summary")
         } else {
-            const createRecipe = await postCreateRecipe({name, summary, healthScore, image, steps, types, created, diets})
+            const createRecipe = await postCreateRecipe({name, summary, healthScore, image, steps, types, createdInDb, diets})
             return res.status(201).json(createRecipe);
       }  
     } catch (error) {

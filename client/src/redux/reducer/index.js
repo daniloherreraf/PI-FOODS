@@ -62,10 +62,12 @@ const rootReducer = (state = initialState, action) => {
                 recipesAll: action.payload
             };
         case FILTER_DIETS:
+            const all = state.recipes;
+            const filterTypes = action.payload === "all" ? all : all.filter((d) => d.diets.includes(action.payload))
             return {
                 ...state,
-                recipesAll: action.payload
-            };
+                recipesAll: filterTypes
+            };           
         case CLEAN_DETAIL:
             return {
                 ...state,
@@ -84,7 +86,7 @@ const rootReducer = (state = initialState, action) => {
             }
         case RECIPES_FILTER:
             const recipes = state.recipes
-            const recipesFiltered = action.payload === "bd" ? recipes.filter(el => el.created === true) : recipes.filter(el=> el.created === false)
+            const recipesFiltered = action.payload === "bd" ? recipes.filter(el => el.createdInDb === true) : recipes.filter(el=> el.created === false)
 
             return {
                 ...state,

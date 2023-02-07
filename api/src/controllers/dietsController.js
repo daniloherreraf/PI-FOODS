@@ -12,7 +12,7 @@ const getDBByDiet = async() => {
         "primal",
         "whole 30", 
         "fodmap friendly",
-        "dairyFree"  
+        "dairy free"  
     ];
 
 diets.forEach((element) => {
