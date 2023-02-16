@@ -57,7 +57,7 @@ export const getRecipesName = (name) => async (dispatch) => {
         const recipesName = await axios.get(`http://localhost:3001/recipes?name=${name}`);
         return dispatch({ type: GET_RECIPES_NAME, payload: recipesName.data })
     } catch (error) {
-        throw new Error(error);
+        alert (`Recipe ${name} not found`)
     }
 }
 

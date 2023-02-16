@@ -13,9 +13,15 @@ const getRecipesHandler = async (req, res) => {
 
     try {
         const results = name ? await searchRecipeByName(name) : await getAllInfo();
-        res.status(200).json(results);
+        if(results.length === 0) {
+            return res.status(404).send(`No existe receta con ese nombre: ${name}`)
+        } else {
+           
+            return res.status(200).json(results);
+        }
+        
     } catch (error) {
-        res.status(404).json({error: error.message})
+       res.status(404).json({error:error.message}) 
     }
 
 };
